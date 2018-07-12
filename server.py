@@ -3,6 +3,7 @@
 from flask import Flask, render_template, jsonify, redirect, url_for, request
 app = Flask(__name__)
 from lib import moclo
+from lib import db_config
 
 @app.route("/")
 def index():
