@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/> 
+    <title>freegenes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/static/index.css" type="text/css" rel="stylesheet" media="screen" />
+
+  </head>
+  <body>
+    <h3>freegenes</h3>
+
+    <div id="container">
+      <form id="myform">
+        <textarea id="sequence" rows="10" cols="50"></textarea>
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+
+    <script>
+      function go(e) {
+      e.preventDefault();
+        
+      var el = document.getElementById("sequence");
+      
+      var request = new XMLHttpRequest();
+      request.open('POST', '/check-seq', true);
+      request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+      request.onload = function() {
+        if (request.status >= 200 && request.status < 400) {
+          var resp = request.responseText;
+          alert(resp);
+        } else {
+          alert("NOPE: " + request.responseText);
+        }
+      };
+
+      request.send(JSON.stringify({
+        gene_id: 'foo',
+        sequence: el.value,
+        part_type: 'cds'
+      }));
+      }
+
+      document.getElementById('myform').onsubmit = go;
+    </script>    
+    <script src="/static/bundle.js"></script>
+  </body>
+</html>
