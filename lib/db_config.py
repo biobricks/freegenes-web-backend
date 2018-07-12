@@ -291,16 +291,24 @@ class Build(Base):
         self.plates[0].wells.append(Well(self.plates[0].plate_type,item,address=address,\
                     vector=vector,trans_outcome=trans_outcome))
 
+
+class Submission(Base):
+    '''Describes a freegenes synthesis request from the public submissions form'''
+    __tablename__ = 'submissions'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    date = Column(String)
+    description = Column(String)
+
 def connect_db():
 
     print('...Connecting to the database...')
 
     ## Connect to the database specified in the config file
     engine = sqlalchemy.create_engine(CONNECTION_STRING, echo=False)
-
     ## Create and commit all of the tables
     Base.metadata.create_all(engine)
-
     Session = sessionmaker(bind=engine)
     Session.configure(bind=engine)
     session = Session()
